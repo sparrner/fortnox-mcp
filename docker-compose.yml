@@ -1,0 +1,17 @@
+services:
+  fortnox-mcp:
+    build: .
+    image: fortnox-mcp:latest
+    restart: unless-stopped
+    ports:
+      - "3100:3000"
+    environment:
+      FORTNOX_CLIENT_ID: ${FORTNOX_CLIENT_ID}
+      FORTNOX_CLIENT_SECRET: ${FORTNOX_CLIENT_SECRET}
+      FORTNOX_REFRESH_TOKEN: ${FORTNOX_REFRESH_TOKEN:-}
+      MCP_AUTH_TOKEN: ${MCP_AUTH_TOKEN}
+    volumes:
+      - fortnox-data:/data
+
+volumes:
+  fortnox-data:
