@@ -1,6 +1,6 @@
 services:
   fortnox-mcp:
-    build: .
+    image: ghcr.io/sparrner/fortnox-mcp:latest
     restart: unless-stopped
     environment:
       FORTNOX_CLIENT_ID: ${FORTNOX_CLIENT_ID}
