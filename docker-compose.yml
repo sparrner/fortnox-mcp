@@ -8,7 +8,7 @@ services:
       FORTNOX_REFRESH_TOKEN: ${FORTNOX_REFRESH_TOKEN:-}
       MCP_AUTH_TOKEN: ${MCP_AUTH_TOKEN}
     volumes:
-      - fortnox-data:/data
+      - /Volume1/data/Filer/portainer/fortnox-mcp:/data
     networks:
       - ai-net
 
@@ -16,5 +16,3 @@ networks:
   ai-net:
     external: true
 
-volumes:
-  fortnox-data:
