@@ -3,8 +3,6 @@ services:
     build: .
     image: fortnox-mcp:latest
     restart: unless-stopped
-    ports:
-      - "3100:3000"
     environment:
       FORTNOX_CLIENT_ID: ${FORTNOX_CLIENT_ID}
       FORTNOX_CLIENT_SECRET: ${FORTNOX_CLIENT_SECRET}
@@ -12,6 +10,12 @@ services:
       MCP_AUTH_TOKEN: ${MCP_AUTH_TOKEN}
     volumes:
       - fortnox-data:/data
+    networks:
+      - ai-net
+
+networks:
+  ai-net:
+    external: true
 
 volumes:
   fortnox-data:
