@@ -71,12 +71,32 @@ function buildServer(): McpServer {
     "List vouchers (verifikat) in Fortnox (read-only). Optional date range with fromdate and todate (YYYY-MM-DD) and financialyear id.",
     {
       limit: z.number().int().min(1).max(500).default(100),
+      page: z.number().int().min(1).default(1),
       fromdate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
       todate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
       financialyear: z.number().int().optional(),
     },
-    async ({ limit, fromdate, todate, financialyear }) =>
-      asText(await fortnox.get("/vouchers", { limit, fromdate, todate, financialyear })),
+    async ({ limit, page, fromdate, todate, financialyear }) =>
+      asText(await fortnox.get("/vouchers", { limit, page, fromdate, todate, financialyear })),
+  );
+
+  server.tool(
+    "list_financial_years",
+    "List Fortnox financial years and their IDs (read-only).",
+    {},
+    async () => asText(await fortnox.get("/financialyears")),
+  );
+
+  server.tool(
+    "get_voucher",
+    "Retrieve a voucher and its accounting rows (read-only). The financial year ID is required to identify the voucher correctly.",
+    {
+      series: z.string().regex(/^[A-Za-z0-9]+$/),
+      number: z.number().int().positive(),
+      financialyear: z.number().int().positive(),
+    },
+    async ({ series, number, financialyear }) =>
+      asText(await fortnox.get(`/vouchers/${encodeURIComponent(series)}/${number}`, { financialyear })),
   );
 
   return server;
